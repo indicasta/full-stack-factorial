@@ -1,0 +1,13 @@
+services:
+  db:
+    container_name: factorial
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=factorial'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=indicasta'
+    ports:
+      - '5432:5432'
+    restart: unless-stopped
+volumes:
+  db:
