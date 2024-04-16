@@ -32,6 +32,7 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt:0.12.5'
 	implementation 'org.slf4j:slf4j-api:2.0.12'
 	implementation 'net.datafaker:datafaker:1.1.0'
+	implementation 'org.springframework:spring-jdbc:6.1.5'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'

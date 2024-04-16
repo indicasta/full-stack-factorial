@@ -37,8 +37,8 @@ public class FullStackFactorialApplication {
 	 *
 	 * @param customerRepository the customer repository
 	 * @param passwordEncoder    the password encoder
-	 * @param s3Service          the s 3 service
-	 * @param s3Bucket           the s 3 bucket
+	 * @param s3Service          the Amazon s3 service
+	 * @param s3Bucket           the Amazon s3 bucket
 	 * @return the command line runner
 	 */
 	@Bean
@@ -77,6 +77,6 @@ public class FullStackFactorialApplication {
 				.role(Role.USER)
 				.build();
 		customerRepository.save(customer);
-        log.info("Saving customer {}", customer.getEmail());
+        log.info("Saving customer {} to database", customer.getEmail());
 	}
 }

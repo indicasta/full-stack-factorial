@@ -1,6 +1,6 @@
 package com.indicasta.fullstackfactorial.auth;
 
-import com.indicasta.fullstackfactorial.config.JwtService;
+import com.indicasta.fullstackfactorial.config.JWTService;
 import com.indicasta.fullstackfactorial.customer.Customer;
 import com.indicasta.fullstackfactorial.customer.CustomerRepository;
 import com.indicasta.fullstackfactorial.customer.Role;
@@ -10,14 +10,24 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Authentication service.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
     private final CustomerRepository repository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
+
+    /**
+     * Register authentication response.
+     *
+     * @param request the request
+     * @return the authentication response
+     */
     public AuthenticationResponse register(RegisterRequest request) {
 
         Customer customer = Customer
@@ -41,6 +51,12 @@ public class AuthenticationService {
                 .build();
     }
 
+    /**
+     * Authenticate authentication response.
+     *
+     * @param request the request
+     * @return the authentication response
+     */
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
