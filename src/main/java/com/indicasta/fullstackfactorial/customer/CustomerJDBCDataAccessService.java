@@ -67,7 +67,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao{
                 customer.getEmail(),
                 customer.getAge(),
                 customer.getPassword(),
-                customer.getRole(),
+                customer.getRole().name(),
                 customer.getProfilePicId()
         );
 
@@ -116,11 +116,11 @@ public class CustomerJDBCDataAccessService implements CustomerDao{
     @Override
     public void updateCustomer(Customer update) {
         int result = 0;
-        if (!update.getFirstname().isBlank())
+        if (update.getFirstname()!=null && !update.getFirstname().isBlank())
         {
             String sql = """
                 UPDATE customer
-                SET fistname = ?
+                SET firstname = ?
                 WHERE id = ?
                 """;
          result = jdbcTemplate.update(
@@ -130,7 +130,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao{
         );
         log.info("update customer with id {} firstname result = {}", update.getId(), result);
         }
-        if (!update.getLastname().isBlank())
+        if (update.getLastname()!=null && !update.getLastname().isBlank())
         {
             String sql = """
                 UPDATE customer
@@ -144,7 +144,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao{
             );
             log.info("update customer with id {} lastname result = {}", update.getId(), result);
         }
-        if (!update.getEmail().isBlank())
+        if (update.getEmail()!=null && !update.getEmail().isBlank())
         {
             String sql = """
                 UPDATE customer
@@ -158,7 +158,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao{
             );
             log.info("update customer with id {} email result = {}", update.getId(), result);
         }
-        if (update.getAge()>= 18 && update.getAge()<=75)
+        if (update.getAge()!=null && update.getAge()>= 18 && update.getAge()<=75)
         {
             String sql = """
                 UPDATE customer
@@ -178,7 +178,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao{
     public Optional<Customer> selectUserByEmail(String email) {
         log.info("Getting customer with email: {}", email);
         String sql = """
-                SELECT id, name, email, password, age, gender, profile_pic_id
+                SELECT id, firstname, lastname, email, password, age, role, profile_pic_id
                 FROM customer
                 WHERE email = ?
                 """;
@@ -191,10 +191,10 @@ public class CustomerJDBCDataAccessService implements CustomerDao{
     public void updateCustomerProfilePicId(Integer customerId, String profilePicId) {
         String sql = """
                 UPDATE customer
-                SET profile_pid_id = ?
+                SET profile_pic_id = ?
                 WHERE id = ?
                 """;
-        jdbcTemplate.update(sql, customerId, profilePicId);
+        jdbcTemplate.update(sql, profilePicId, customerId);
         log.info("Updating profile picture Id to : {}, for customer with id: {}", profilePicId, customerId);
     }
 }

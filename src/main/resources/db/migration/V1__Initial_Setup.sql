@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS customer (
                           lastname TEXT NOT NULL,
                           email TEXT NOT NULL,
                           password TEXT NOT NULL,
-                          age INT NOT NULL
+                          age INT NOT NULL,
+                          role TEXT NOT NULL
 );

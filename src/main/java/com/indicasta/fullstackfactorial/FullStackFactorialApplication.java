@@ -66,7 +66,7 @@ public class FullStackFactorialApplication {
 		String firstName = faker.name().firstName();
 		String lastName = faker.name().lastName();
 		Random random = new Random();
-		int age = random.nextInt(16, 72);
+		int age = random.nextInt(16, 75);
 		String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@factorial.com";
 		Customer customer = Customer.builder()
 				.firstname(firstName)

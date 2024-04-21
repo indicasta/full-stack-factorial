@@ -1,5 +1,6 @@
 package com.indicasta.fullstackfactorial.config;
 
+import com.indicasta.fullstackfactorial.customer.CustomerUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JWTService jwtService;
-    private UserDetailsService userDetailsService;
+    private CustomerUserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -40,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
             jwt = authHeader.substring(7);
             customerEmail = jwtService.extractUsername(jwt);
-            if (customerEmail!=null && SecurityContextHolder.getContext().getAuthentication() ==null) {
+            if (!customerEmail.isBlank() && SecurityContextHolder.getContext().getAuthentication() ==null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(customerEmail);
                 if(jwtService.isTokenValid(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(

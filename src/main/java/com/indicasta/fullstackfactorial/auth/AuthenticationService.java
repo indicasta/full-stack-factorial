@@ -2,6 +2,7 @@ package com.indicasta.fullstackfactorial.auth;
 
 import com.indicasta.fullstackfactorial.config.JWTService;
 import com.indicasta.fullstackfactorial.customer.Customer;
+import com.indicasta.fullstackfactorial.customer.CustomerDTOMap;
 import com.indicasta.fullstackfactorial.customer.CustomerRepository;
 import com.indicasta.fullstackfactorial.customer.Role;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final CustomerDTOMap customerDTOMap;
 
     /**
      * Register authentication response.
@@ -46,9 +48,7 @@ public class AuthenticationService {
 
     private AuthenticationResponse getAuthenticationResponse(Customer customer) {
         String jwtToken = jwtService.generateToken(customer);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        return new AuthenticationResponse(jwtToken, customerDTOMap.apply(customer));
     }
 
     /**
@@ -60,11 +60,12 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
-                request.getPassword()
+                request.email(),
+                request.password()
         ));
-        Customer customer = repository.findCustomerByEmail(request.getEmail())
+        Customer customer = repository.findCustomerByEmail(request.email())
                 .orElseThrow();
-        return getAuthenticationResponse(customer);
+        String token = jwtService.generateToken(customer);
+        return new AuthenticationResponse(token, customerDTOMap.apply(customer));
     }
 }
